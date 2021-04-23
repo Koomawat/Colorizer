@@ -19,6 +19,11 @@ def main():
 
     print(clustersList)
 
+    abc = [sum(x) // len(x) for x in zip(*val)]
+
+
+    print(abc)
+
     return
     
 if __name__ == "__main__":

@@ -10,7 +10,8 @@ def convertToGrayscale(rgb):
     return np.dot(rgb[...,:3], [0.21, 0.72, 0.07])
 
 
-def kCluster(k, vals, width, height):
+
+def kCluster(k, vals):
 
     lenVals = len(vals)
 
@@ -33,9 +34,9 @@ def kCluster(k, vals, width, height):
 
         for j in range(k):
 
-            tempR = randomCenters[k][0]
-            tempG = randomCenters[k][1]
-            tempB = randomCenters[k][2]
+            tempR = randomCenters[j][0]
+            tempG = randomCenters[j][1]
+            tempB = randomCenters[j][2]
 
             rDiff = 2 * ((r - tempR) ** 2)
             gDiff = 4 * ((g - tempG) ** 2)
@@ -47,11 +48,17 @@ def kCluster(k, vals, width, height):
 
         lowestIndex = distCompare.index(min(distCompare))    
         clustersList[lowestIndex].append(vals[i])
+        distCompare = []
 
+    for i in range(len(clustersList)):
 
-    resultCenters = []
+        avg = [sum(x) // len(x) for x in zip(*clustersList[i])]
+        
+        vals.append(avg)
+        vals.remove(randomCenters[i])
+         
 
-    return resultCenters
+    return 
 
 
 def main():
@@ -87,6 +94,8 @@ def main():
 
     plt.imshow(beachGray, cmap='gray')
     plt.show()
+
+    kCluster(5, rgbDataPoints)
 
     
 if __name__ == "__main__":
