@@ -56,4 +56,4 @@ def kCluster(k, vals, randomCenters):
         vals.remove(randomCenters[i])
          
     # Returning the new center values of each cluster
-    return newCenters
+    return newCenters, vals

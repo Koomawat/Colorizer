@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import random
 
-def basic(img, k, rgbDataPoints):
+def basic(img, img2, k, rgbDataPoints, height, width):
 
     pic = img
 
@@ -22,19 +22,20 @@ def basic(img, k, rgbDataPoints):
     randomCenters = random.sample(dataCopy, k)
     
     # Calling k means algorithm on the data points
-    newClusterCenters = kCluster(k, rgbDataPoints, randomCenters)
+    newClusterCenters, rgbDataPoints = kCluster(k, rgbDataPoints, randomCenters)
 
     # Repeating the algorithm until no cluster changes are made
     while(newClusterCenters != randomCenters):
 
         randomCenters = newClusterCenters
-        newClusterCenters = kCluster(k, rgbDataPoints, randomCenters)
+        newClusterCenters, rgbDataPoints = kCluster(k, rgbDataPoints, randomCenters)
 
     # Printing the k clusters center colors
-    newClusterCenters = np.array(newClusterCenters)
-    kColorVals = newClusterCenters.reshape(1,k,3)
+    newClusterCentersNP = np.array(newClusterCenters)
+    kColorVals = newClusterCentersNP.reshape(1,k,3)
     plt.imshow(kColorVals, cmap='gray')
     plt.show()
 
+    kColorLeft(img2, rgbDataPoints, k, newClusterCenters, height, width)
 
     return

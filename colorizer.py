@@ -11,6 +11,7 @@ def main():
     img = Image.open('beach.jpg')
     pix = img.load()
     dimension = img.size 
+    #img.show()
 
     # Get width and height of image
     width = dimension[0]
@@ -30,12 +31,12 @@ def main():
             count += 1
 
     # Matplot image read
-    beach = mpimg.imread('beach.jpg')
-    plt.imshow(beach, cmap='gray')
-    plt.show()
+    image = mpimg.imread('beach.jpg')
+    #plt.imshow(image, cmap='gray')
+    #plt.show()
 
     # Calling basic colorizer
-    basic(beach, k, rgbDataPoints)
+    basic(image, img, k, rgbDataPoints, height, width)
 
     
 if __name__ == "__main__":
