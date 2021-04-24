@@ -11,16 +11,9 @@ def convertToGrayscale(rgb):
 
 
 
-def kCluster(k, vals):
+def kCluster(k, vals, randomCenters):
 
     lenVals = len(vals)
-
-    randomCenters = []
-
-    valsCopy = vals
-    valsCopy = list(set(valsCopy))
-
-    randomCenters = random.sample(valsCopy, k)
 
     clustersList = [[] for _ in range(k)] 
 
@@ -50,15 +43,20 @@ def kCluster(k, vals):
         clustersList[lowestIndex].append(vals[i])
         distCompare = []
 
+    newCenters = [(0,0,0)]*k
+
     for i in range(len(clustersList)):
 
-        avg = [sum(x) // len(x) for x in zip(*clustersList[i])]
+        (x,y,z) = [sum(x) // len(x) for x in zip(*clustersList[i])]
         
+        avg = (x,y,z)
+
         vals.append(avg)
+        newCenters[i] = avg
         vals.remove(randomCenters[i])
          
 
-    return 
+    return newCenters
 
 
 def main():
@@ -68,8 +66,6 @@ def main():
     dimension = img.size 
     width = dimension[0]
     height = dimension[1]
-
-    print(width)
 
     rgbDataPoints = [None] * (width * height)
     
@@ -95,7 +91,21 @@ def main():
     plt.imshow(beachGray, cmap='gray')
     plt.show()
 
-    kCluster(5, rgbDataPoints)
+    randomCenters = []
+
+    dataCopy = rgbDataPoints
+    dataCopy = list(set(dataCopy))
+
+    randomCenters = random.sample(dataCopy, k)
+    
+    a = kCluster(5, rgbDataPoints, randomCenters)
+
+    while(a != randomCenters):
+        
+        randomCenters = a
+        a = kCluster(5, rgbDataPoints, randomCenters)
+
+    print(a)
 
     
 if __name__ == "__main__":
