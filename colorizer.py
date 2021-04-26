@@ -8,7 +8,7 @@ from PIL import Image
 def main():
     
     # Open image
-    img = Image.open('beach.jpg')
+    img = Image.open('hills.jpg')
     pix = img.load()
     dimension = img.size 
     #img.show()
@@ -31,12 +31,12 @@ def main():
             count += 1
 
     # Matplot image read
-    image = mpimg.imread('beach.jpg')
+    image = mpimg.imread('hills.jpg')
     #plt.imshow(image, cmap='gray')
     #plt.show()
 
     # Calling basic colorizer
-    basic(image, img, k, rgbDataPoints, height, width)
+    result = basic(image, img, k, rgbDataPoints, height, width)
 
     
 if __name__ == "__main__":

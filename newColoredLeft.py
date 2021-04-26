@@ -3,7 +3,7 @@ from PIL import Image
 
 def kColorLeft(img, rgbDataPoints, k, colors, height, width):
 
-    imgCopy = img
+    imgCopy = img.copy()
     pix = imgCopy.load()
 
     count = 0
@@ -43,6 +43,5 @@ def kColorLeft(img, rgbDataPoints, k, colors, height, width):
 
     imgCopy.show()
 
-
-    return
+    return imgCopy
 
