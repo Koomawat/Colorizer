@@ -41,7 +41,7 @@ def kColorLeft(img, rgbDataPoints, k, colors, height, width):
 
         count += (width//2)
 
-    imgCopy.show()
+    #imgCopy.show()
 
     return imgCopy
 

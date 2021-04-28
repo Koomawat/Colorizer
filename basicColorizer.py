@@ -7,6 +7,7 @@ import random
 from scipy import misc
 import math
 import collections
+from operator import itemgetter
 
 def basic(img, img2, k, rgbDataPoints, height, width):
 
@@ -52,20 +53,24 @@ def basic(img, img2, k, rgbDataPoints, height, width):
 
     # BW Training (left side)
     bwTraining = picGray[:, :widthCut]
-    plt.imshow(bwTraining, cmap='gray')
-    plt.show()
+    #plt.imshow(bwTraining, cmap='gray')
+    #plt.show()
 
     # BW Testing (right side)
     bwTesting = picGray[:, widthCut:]
-    plt.imshow(bwTesting, cmap='gray')
-    plt.show()
+    #plt.imshow(bwTesting, cmap='gray')
+    #plt.show()
+
+    euclideanListCompare = []
+    indexList = []
+    representativeColors = []
 
     for h in range (heightCut):
         print(h)
         for w in range (widthCut):
 
             if h!=0 and h!= heightCut-1 and w!=0 and w!= widthCut-1:
-                
+
                 g0 = bwTesting[h-1, w-1]
                 g1 = bwTesting[h-1, w]
                 g2 = bwTesting[h-1, w+1]   
@@ -76,8 +81,7 @@ def basic(img, img2, k, rgbDataPoints, height, width):
                 g7 = bwTesting[h+1, w]
                 g8 = bwTesting[h+1, w+1]
             
-                euclideanListCompare = []
-                indexList = []
+                
             
                 for h2 in range (heightCut):
                     for w2 in range (widthCut):
@@ -95,35 +99,41 @@ def basic(img, img2, k, rgbDataPoints, height, width):
                             g_8 = bwTraining[h2+1, w2+1]
 
                             eucDistance = math.sqrt(
-                            ((g0 - g_0) ** 2) + 
-                            ((g1 - g_1) ** 2) +
-                            ((g2 - g_2) ** 2) +
-                            ((g3 - g_3) ** 2) +
-                            ((g4 - g_4) ** 2) +
-                            ((g5 - g_5) ** 2) +
-                            ((g6 - g_6) ** 2) +
-                            ((g7 - g_7) ** 2) +
-                            ((g8 - g_8) ** 2))
-
+                            (abs(g0 - g_0) ** 2) + 
+                            (abs(g1 - g_1) ** 2) +
+                            (abs(g2 - g_2) ** 2) +
+                            (abs(g3 - g_3) ** 2) +
+                            (abs(g4 - g_4) ** 2) +
+                            (abs(g5 - g_5) ** 2) +
+                            (abs(g6 - g_6) ** 2) +
+                            (abs(g7 - g_7) ** 2) +
+                            (abs(g8 - g_8) ** 2))
+                            #print(eucDistance)
                             euclideanListCompare.append(eucDistance)
-                            indexList.append((h2,w2))
-                
-                representativeColors = []
-                
-                for i in range(6):
+                            indexList.append((h2,w2))  
 
-                    minEuc = min(euclideanListCompare)
-                    lowestIndex = euclideanListCompare.index(minEuc)
-                    location = indexList[lowestIndex]
+                #print("-------------------")
+                #print(euclideanListCompare)
+
+                for i in range(6):
+                    
+                    #print("------------------")
+                    minEuc = min(enumerate(euclideanListCompare), key=itemgetter(1))[0]
+                    val = min(enumerate(euclideanListCompare), key=itemgetter(1))[1]
+                    #print(minEuc, " ",val)
+                    location = indexList[minEuc]
                     locationH = location[0]
                     locationW = location[1]
                     currColor = pixels[locationW, locationH]
                     representativeColors.append(currColor)
-                    euclideanListCompare.pop(lowestIndex)
+                    del euclideanListCompare[minEuc]
+                    del indexList[minEuc]
+            
+                colorCount = collections.Counter(representativeColors)
+                commonColor = colorCount.most_common()
+                #print(commonColor)
+                #print("w:", w, " H:", h)
 
-                    colorCount = collections.Counter(representativeColors)
-                    commonColor = colorCount.most_common()
-                
                 if len(commonColor) == 1:
 
                     pixels[w+widthCut, h] = commonColor[0][0]
@@ -132,15 +142,22 @@ def basic(img, img2, k, rgbDataPoints, height, width):
 
                     pixels[w+widthCut, h] = commonColor[0][0]
 
-                else:
+                #else:
+                    #pixels[w+widthCut, h] = (0,0,0)
+                    #pixels[w+widthCut, h] = representativeColors[0]
 
-                    pixels[w+widthCut, h] = representativeColors[0]
+
+                euclideanListCompare.clear()
+                indexList.clear()
+                representativeColors.clear()
 
             #else:
 
-                #pixels[h+heightCut,w+widthCut] = (0,0,0)
+                #pixels[w+widthCut, h] = (0,0,0)
 
-    halfKMeansCopy.show()
+    #halfKMeansCopy.show()
+    plt.imshow(halfKMeansCopy, cmap='gray')
+    plt.show()
     print("done")
 
     return halfKMeansCopy

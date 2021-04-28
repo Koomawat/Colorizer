@@ -1,5 +1,6 @@
 import random
 import collections
+from operator import itemgetter
 
 def main():
     
@@ -44,6 +45,16 @@ def main():
 
     print(test)
 
+    print(int(round(12.6)))
+
+    abc = [2,3,4,5,6,1]
+    minEuc = min(enumerate(abc), key=itemgetter(1))[0]
+    minEuc2 = min(enumerate(abc), key=itemgetter(1))[1]
+
+    print(minEuc)
+    print(minEuc2)
+
+    
     return
     
 if __name__ == "__main__":

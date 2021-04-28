@@ -8,7 +8,7 @@ from PIL import Image
 def main():
     
     # Open image
-    img = Image.open('hills.jpg')
+    img = Image.open('download.jpg')
     pix = img.load()
     dimension = img.size 
     #img.show()
@@ -31,7 +31,7 @@ def main():
             count += 1
 
     # Matplot image read
-    image = mpimg.imread('hills.jpg')
+    image = mpimg.imread('download.jpg')
     #plt.imshow(image, cmap='gray')
     #plt.show()
 
