@@ -69,17 +69,17 @@ def basic(img, img2, k, rgbDataPoints, height, width):
         print(h)
         for w in range (widthCut):
 
-            if h!=0 and h!= heightCut-1 and w!=0 and w!= widthCut-1:
+            if h!=0 and h!= heightCut-1 and w!= widthCut-1:
 
-                g0 = bwTesting[h-1, w-1]
-                g1 = bwTesting[h-1, w]
-                g2 = bwTesting[h-1, w+1]   
-                g3 = bwTesting[h, w-1]
-                g4 = bwTesting[h, w]
-                g5 = bwTesting[h, w+1]
-                g6 = bwTesting[h+1, w-1]
-                g7 = bwTesting[h+1, w]
-                g8 = bwTesting[h+1, w+1]
+                g0 = picGray[h-1, w-1+widthCut]
+                g1 = picGray[h-1, w+widthCut]
+                g2 = picGray[h-1, w+1+widthCut]   
+                g3 = picGray[h, w-1+widthCut]
+                g4 = picGray[h, w+widthCut]
+                g5 = picGray[h, w+1+widthCut]
+                g6 = picGray[h+1, w-1+widthCut]
+                g7 = picGray[h+1, w+widthCut]
+                g8 = picGray[h+1, w+1+widthCut]
             
                 
             
@@ -142,18 +142,18 @@ def basic(img, img2, k, rgbDataPoints, height, width):
 
                     pixels[w+widthCut, h] = commonColor[0][0]
 
-                #else:
+                else:
                     #pixels[w+widthCut, h] = (0,0,0)
-                    #pixels[w+widthCut, h] = representativeColors[0]
+                    pixels[w+widthCut, h] = representativeColors[0]
 
 
                 euclideanListCompare.clear()
                 indexList.clear()
                 representativeColors.clear()
 
-            #else:
+            else:
 
-                #pixels[w+widthCut, h] = (0,0,0)
+                pixels[w+widthCut, h] = (0,0,0)
 
     #halfKMeansCopy.show()
     plt.imshow(halfKMeansCopy, cmap='gray')
