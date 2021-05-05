@@ -8,10 +8,10 @@ from PIL import Image
 def main():
     
     # Open image
-    img = Image.open('hills.jpg')
+    img = Image.open('download.jpg')
     pix = img.load()
     dimension = img.size 
-    #img.show()
+    img.show()
 
     # Get width and height of image
     width = dimension[0]
@@ -31,12 +31,13 @@ def main():
             count += 1
 
     # Matplot image read
-    image = mpimg.imread('hills.jpg')
-    #plt.imshow(image, cmap='gray')
-    #plt.show()
+    image = mpimg.imread('download.jpg')
+    plt.imshow(image, cmap='gray')
+    plt.show()
 
     # Calling basic colorizer
     result = basic(image, img, k, rgbDataPoints, height, width)
+    result.save("result.jpg") 
 
     
 if __name__ == "__main__":

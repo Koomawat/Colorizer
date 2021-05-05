@@ -65,12 +65,14 @@ def basic(img, img2, k, rgbDataPoints, height, width):
     indexList = []
     representativeColors = []
 
+
     for h in range (heightCut):
         print(h)
         for w in range (widthCut):
 
             if h!=0 and h!= heightCut-1 and w!= widthCut-1:
-
+                
+                # Surrounding pixels + middle pixel
                 g0 = picGray[h-1, w-1+widthCut]
                 g1 = picGray[h-1, w+widthCut]
                 g2 = picGray[h-1, w+1+widthCut]   
@@ -82,7 +84,7 @@ def basic(img, img2, k, rgbDataPoints, height, width):
                 g8 = picGray[h+1, w+1+widthCut]
             
                 
-            
+                
                 for h2 in range (heightCut):
                     for w2 in range (widthCut):
                         
@@ -98,6 +100,7 @@ def basic(img, img2, k, rgbDataPoints, height, width):
                             g_7 = bwTraining[h2+1, w2]
                             g_8 = bwTraining[h2+1, w2+1]
 
+                            # calculate Euclidean distance 
                             eucDistance = math.sqrt(
                             (abs(g0 - g_0) ** 2) + 
                             (abs(g1 - g_1) ** 2) +
@@ -115,6 +118,7 @@ def basic(img, img2, k, rgbDataPoints, height, width):
                 #print("-------------------")
                 #print(euclideanListCompare)
 
+                # six similar seraches
                 for i in range(6):
                     
                     #print("------------------")
@@ -155,7 +159,7 @@ def basic(img, img2, k, rgbDataPoints, height, width):
 
                 pixels[w+widthCut, h] = (0,0,0)
 
-    #halfKMeansCopy.show()
+    halfKMeansCopy.show()
     plt.imshow(halfKMeansCopy, cmap='gray')
     plt.show()
     print("done")
