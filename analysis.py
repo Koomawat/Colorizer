@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from PIL import Image
 from matplotlib import image
+import threading
+import concurrent.futures
 
 # Convert each pixel in image to a list of RGB values
 def pixelfy(imgName):
@@ -66,8 +68,8 @@ def avg(diff):
     diffAvg = sum(diff)/len(diff)
     return diffAvg
 
-def main():
-    
+# Evaluates the difference between original and colorized images.
+def diffAnalysis():
     # Pixelfy images into an array of RGB values 
     ogPixel = pixelfy('download')
     colPixel = pixelfy('result')
@@ -86,6 +88,48 @@ def main():
     print(f'Average difference: {finalAvg}')
 
     print(f'Difference Percentage: {round(finalAvg/255, 3)*100}%')
+
+    return
+
+def timeDiff():
+     with concurrent.futures.ProcessPoolExecutor() as executor:
+
+        ########### data set ###########
+        imgName = "download.jpg"
+        img = Image.open(imgName)
+        pix = img.load()
+        image = mpimg.imread(imgName)
+
+        dimension = img.size 
+        width = dimension[0]
+        height = dimension[1]
+
+        k = 6
+
+        rgbDataPoints = [None] * (width * height)
+        count = 0
+        for h in range(height):
+            for w in range(width):
+                rgbDataPoints[count] = pix[w,h]
+                count += 1
+        #################################
+        
+        f1 = executor.submit(basic, image, img, k, rgbDataPoints, height, width)
+        f2 = executor.submit(original, image, img, k, rgbDataPoints, height, width)
+
+        randomPatchTime = f1.result()[1]
+        ogTime = f2.result()[1]
+
+        print(f"Selective Method: {randomPatchTime}")
+        print(f"Overall Method: {ogTime}")
+        print(f"By using selective method of 1,000 patches, the program execution time was increased by {round(randomPatchTime/ogTime*100, 4)%}")
+    
+        return 
+
+def main():
+    
+    #diffAnalysis()
+    timeDiff()
 
     return
 

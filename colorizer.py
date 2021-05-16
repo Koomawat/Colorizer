@@ -7,11 +7,13 @@ from PIL import Image
 
 def main():
     
+    imgName = input("What is the name of the image?: ")
+
     # Open image
-    img = Image.open('download.jpg')
+    img = Image.open(imgName)
     pix = img.load()
     dimension = img.size 
-    img.show()
+    # img.show()
 
     # Get width and height of image
     width = dimension[0]
@@ -21,7 +23,7 @@ def main():
     rgbDataPoints = [None] * (width * height)
     
     # Using a k value of 5
-    k = 5
+    k = 6
 
     # Iterating all the pixels in the image and finding the RGB values
     count = 0
@@ -31,13 +33,13 @@ def main():
             count += 1
 
     # Matplot image read
-    image = mpimg.imread('download.jpg')
+    image = mpimg.imread(imgName)
     plt.imshow(image, cmap='gray')
     plt.show()
 
     # Calling basic colorizer
-    result = basic(image, img, k, rgbDataPoints, height, width)
-    result.save("result.jpg") 
+    result, compTime = basic(image, img, k, rgbDataPoints, height, width)
+    result.save("rain3.jpg") 
 
     
 if __name__ == "__main__":
